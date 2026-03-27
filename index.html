@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rush Hour</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🚗 RUSH HOUR 🚙</h1>
+        
+        <canvas id="gameCanvas" width="480" height="480"></canvas>
+        
+        <div class="info-panel">
+            <div class="level-info">
+                <span id="levelName">Level 1</span>
+                <span id="levelCounter">1 / 80</span>
+            </div>
+            
+            <div class="controls">
+                <button id="prevBtn">◀ Prev</button>
+                <button id="resetBtn">↺ Reset</button>
+                <button id="nextBtn">Next ▶</button>
+            </div>
+            
+            <div class="status" id="statusMsg">
+                Klik mobil, lalu tekan tombol panah
+            </div>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
