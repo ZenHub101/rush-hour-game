@@ -263,6 +263,31 @@ class RushHourGame {
         if (resetBtn) resetBtn.onclick = () => this.resetLevel();
         if (prevBtn) prevBtn.onclick = () => this.changeLevel(-1);
         if (nextBtn) nextBtn.onclick = () => this.changeLevel(1);
+        // Touch controls untuk HP
+const touchBtns = document.querySelectorAll('.touch-btn');
+touchBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const dir = btn.getAttribute('data-dir');
+        if (!this.selectedCar) {
+            document.getElementById('statusMsg').innerHTML = '⚠️ Klik mobil dulu!';
+            return;
+        }
+        
+        let dx = 0, dy = 0;
+        switch(dir) {
+            case 'left': dx = -1; break;
+            case 'right': dx = 1; break;
+            case 'up': dy = -1; break;
+            case 'down': dy = 1; break;
+        }
+        
+        if (this.selectedCar.orient === 'h' && dy !== 0) return;
+        if (this.selectedCar.orient === 'v' && dx !== 0) return;
+        
+        this.tryMove(this.selectedCar, dx, dy);
+    });
+});
     }
     
     onCanvasClick(e) {
