@@ -75,7 +75,7 @@ class RushHourGame {
             "RHB4, CHD6, CVC2, CVE5, TVA1, TVF3",
             "RHA3, CVE1, CVC2, CVE3, CVA5, CVB5, CHE5, THA1, TVF1, THA4",
             "RHA3, CHC2, CHD4, CVA5, TVB1, TVE6",
-            "RHC3, CVD1, CVB2, CHA4, CVC4, CHD5, CVF5, THA1, TVE2, THA6",//
+            "RHC3, CVD1, CVB2, CHA4, CVC4, CHD5, CVF5, THA1, TVE2, THA6",
             "RHC2, CHB4, CHD6, CVE1, TVA3, TVF5",
             "RHA4, CHA2, CHC5, CVA6, TVB3, TVE1",
             "RHB6, CHC1, CHD3, CVE4, TVA2, TVF5",
