@@ -9,17 +9,17 @@ class RushHourGame {
         this.ctx = this.canvas.getContext('2d');
         this.gridSize = 6;
         this.cellSize = this.canvas.width / this.gridSize;
-        
+
         this.grid = Array(6).fill().map(() => Array(6).fill(null));
         this.cars = [];
         this.selectedCar = null;
         this.currentLevel = 1;
-        
+
         // ========== LEVEL DATA LANGSUNG DI SINI ==========
         this.levels = [
             // INDEX 0 - DEBUG / SANDBOX
             "RA, CHA4, TVF1",
-            
+
             // INDEX 1-20 - BEGINNER (Level 1-20)
             "RHC3, CVE3, TVF2, THA4, THD5, CVC5",
             "RHA3, CHE4, CVE5, THA1, TVC2, THA5",
@@ -63,7 +63,7 @@ class RushHourGame {
             "RHA3, CVA1, CHC1, CHE1, CHB2, CVD2, CVF2, CVC3, CHD4, CVF4, CVE5, THB5, THB6",
             "RHA3, CVA1, CHB1, CVC2, CHD2, CVF2, CVD4, CHE4, CVE5, CHA6, CHC6, THD1, THA5",
             "RHD3, CHB1, CVD1, CHE1, CHA2, CVC2, CVF2, CVC4, CVF4, CHD5, CHB6, TVA4, THD6",
-            
+
             // INDEX 41-60 - ADVANCED (Level 41-60)
             "RHD3, CVC6, TVE4, TVF5, CHB2, CHD4, CHA4, TVF1, TVF3, CVA5",
             "RHA3, CHA4, CHB1, CVC2, CVE5, TVD6",
@@ -86,7 +86,7 @@ class RushHourGame {
             "RHC4, CHA6, CHB2, CVE5, TVD1, TVF3",
             "RHA3, CHB1, CHC5, CVA2, TVD6, TVE4",
             "RHB5, CHD2, CVC4, CVE1, TVA3, TVF6",
-            
+
             // INDEX 61-80 - EXPERT (Level 61-80)
             "RHA3, CHA4, CHB1, CHC2, CVA5, CVE6, TVD3",
             "RHB2, CHD3, CVA1, CVC4, CVE5, TVF6, TVB6",
@@ -110,25 +110,25 @@ class RushHourGame {
             "RHB5, CHD2, CVC4, CVE1, TVA3, TVF6, TVB4"
         ];
         // ========== AKHIR LEVEL DATA ==========
-        
+
         this.initEvents();
         this.loadLevel(this.currentLevel);
     }
-    
+
     // ========== DECODER NOTASI ==========
     decodeNotation(notationString) {
         const tokens = notationString.split(',').map(t => t.trim());
         const cars = [];
-        
+
         const carLength = { 'R': 2, 'C': 2, 'T': 3 };
         const carColor = { 'R': '#e33', 'C': '#444', 'T': '#888' };
-        
+
         function parseCoord(coord) {
             const col = coord.charCodeAt(0) - 'A'.charCodeAt(0);
             const row = parseInt(coord[1]) - 1;
             return { row, col };
         }
-        
+
         for (const token of tokens) {
             if (token === 'RA') {
                 cars.push({
@@ -137,12 +137,12 @@ class RushHourGame {
                 });
                 continue;
             }
-            
+
             const color = token[0];
             const orient = token[1];
             const coord = token.substring(2);
             const { row, col } = parseCoord(coord);
-            
+
             cars.push({
                 id: color, hex: carColor[color], row: row, col: col,
                 orient: orient.toLowerCase(), length: carLength[color],
@@ -151,7 +151,7 @@ class RushHourGame {
         }
         return cars;
     }
-    
+
     // ========== LOAD LEVEL ==========
     loadLevel(index) {
         const notation = this.levels[index];
@@ -161,12 +161,12 @@ class RushHourGame {
             this.updateUI();
         }
     }
-    
+
     loadCars(cars) {
         // Reset grid
         this.grid = Array(6).fill().map(() => Array(6).fill(null));
         this.cars = [];
-        
+
         // Load cars
         cars.forEach(carData => {
             const car = {
@@ -181,11 +181,11 @@ class RushHourGame {
             this.cars.push(car);
             this.placeCarOnGrid(car);
         });
-        
+
         this.selectedCar = null;
         this.draw();
     }
-    
+
     placeCarOnGrid(car) {
         if (car.orient === 'h') {
             for (let i = 0; i < car.length; i++) {
@@ -201,7 +201,7 @@ class RushHourGame {
             }
         }
     }
-    
+
     removeCarFromGrid(car) {
         if (car.orient === 'h') {
             for (let i = 0; i < car.length; i++) {
@@ -217,11 +217,11 @@ class RushHourGame {
             }
         }
     }
-    
+
     tryMove(car, dx, dy) {
         const newCol = car.col + dx;
         const newRow = car.row + dy;
-        
+
         if (car.orient === 'h') {
             if (newCol < 0 || newCol + car.length > this.gridSize) return false;
             for (let i = 0; i < car.length; i++) {
@@ -235,63 +235,102 @@ class RushHourGame {
                 if (cell !== null && cell !== car) return false;
             }
         }
-        
+
         this.removeCarFromGrid(car);
         car.col = newCol;
         car.row = newRow;
         this.placeCarOnGrid(car);
         this.draw();
-        
+
         if (car.isRed && car.col + car.length === this.gridSize) {
-            document.getElementById('statusMsg').innerHTML = '🎉 SELAMAT! MOBIL MERAH KELUAR! 🎉';
-            setTimeout(() => {
-                if (this.currentLevel + 1 < this.levels.length) {
-                    this.nextLevel();
+            // Disable kontrol dulu biar gak ganggu animasi
+            this.selectedCar = null;
+
+            // Animasi mobil merah meluncur ke kanan
+            let step = 0;
+            const maxStep = 10; // jumlah frame animasi
+            const originalCol = car.col;
+
+            const animateExit = () => {
+                step++;
+                const progress = step / maxStep;
+                // Geser mobil ke kanan secara progresif
+                const offset = progress * this.cellSize;
+
+                // Hapus dari grid dulu
+                this.removeCarFromGrid(car);
+
+                // Gambar ulang semua mobil + mobil merah dengan offset
+                this.draw();
+
+                // Gambar mobil merah dengan posisi bergeser
+                const x = (originalCol + progress) * this.cellSize;
+                const y = car.row * this.cellSize;
+                const width = car.length * this.cellSize;
+
+                this.ctx.fillStyle = '#e33';
+                this.ctx.fillRect(x, y, width, this.cellSize);
+                this.ctx.strokeStyle = '#222';
+                this.ctx.strokeRect(x, y, width, this.cellSize);
+
+                if (step < maxStep) {
+                    requestAnimationFrame(animateExit);
+                } else {
+                    // Animasi selesai, load level berikutnya
+                    document.getElementById('statusMsg').innerHTML = '🎉 SELAMAT! MOBIL MERAH KELUAR! 🎉';
+                    setTimeout(() => {
+                        if (this.currentLevel + 1 < this.levels.length) {
+                            this.nextLevel();
+                        }
+                    }, 500);
                 }
-            }, 1500);
+            };
+
+            requestAnimationFrame(animateExit);
+            return true;
         }
         return true;
     }
-    
+
     // ========== EVENT HANDLER ==========
     initEvents() {
         this.canvas.addEventListener('click', (e) => this.onCanvasClick(e));
         window.addEventListener('keydown', (e) => this.onKeyPress(e));
-        
+
         const resetBtn = document.getElementById('resetBtn');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
-        
+
         if (resetBtn) resetBtn.onclick = () => this.resetLevel();
         if (prevBtn) prevBtn.onclick = () => this.changeLevel(-1);
         if (nextBtn) nextBtn.onclick = () => this.changeLevel(1);
         // Touch controls untuk HP
-const touchBtns = document.querySelectorAll('.touch-btn');
-touchBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const dir = btn.getAttribute('data-dir');
-        if (!this.selectedCar) {
-            document.getElementById('statusMsg').innerHTML = '⚠️ Klik mobil dulu!';
-            return;
-        }
-        
-        let dx = 0, dy = 0;
-        switch(dir) {
-            case 'left': dx = -1; break;
-            case 'right': dx = 1; break;
-            case 'up': dy = -1; break;
-            case 'down': dy = 1; break;
-        }
-        
-        if (this.selectedCar.orient === 'h' && dy !== 0) return;
-        if (this.selectedCar.orient === 'v' && dx !== 0) return;
-        
-        this.tryMove(this.selectedCar, dx, dy);
-    });
-});
+        const touchBtns = document.querySelectorAll('.touch-btn');
+        touchBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const dir = btn.getAttribute('data-dir');
+                if (!this.selectedCar) {
+                    document.getElementById('statusMsg').innerHTML = '⚠️ Klik mobil dulu!';
+                    return;
+                }
+
+                let dx = 0, dy = 0;
+                switch (dir) {
+                    case 'left': dx = -1; break;
+                    case 'right': dx = 1; break;
+                    case 'up': dy = -1; break;
+                    case 'down': dy = 1; break;
+                }
+
+                if (this.selectedCar.orient === 'h' && dy !== 0) return;
+                if (this.selectedCar.orient === 'v' && dx !== 0) return;
+
+                this.tryMove(this.selectedCar, dx, dy);
+            });
+        });
     }
-    
+
     onCanvasClick(e) {
         const rect = this.canvas.getBoundingClientRect();
         const scaleX = this.canvas.width / rect.width;
@@ -300,7 +339,7 @@ touchBtns.forEach(btn => {
         const mouseY = (e.clientY - rect.top) * scaleY;
         const col = Math.floor(mouseX / this.cellSize);
         const row = Math.floor(mouseY / this.cellSize);
-        
+
         const clickedCar = this.cars.find(car => {
             if (car.orient === 'h') {
                 return car.row === row && col >= car.col && col < car.col + car.length;
@@ -308,7 +347,7 @@ touchBtns.forEach(btn => {
                 return car.col === col && row >= car.row && row < car.row + car.length;
             }
         });
-        
+
         if (clickedCar) {
             this.selectedCar = clickedCar;
             const statusMsg = document.getElementById('statusMsg');
@@ -321,12 +360,12 @@ touchBtns.forEach(btn => {
             this.draw();
         }
     }
-    
+
     onKeyPress(e) {
         if (!this.selectedCar) return;
-        
+
         let dx = 0, dy = 0;
-        switch(e.key) {
+        switch (e.key) {
             case 'ArrowLeft': dx = -1; break;
             case 'ArrowRight': dx = 1; break;
             case 'ArrowUp': dy = -1; break;
@@ -334,17 +373,17 @@ touchBtns.forEach(btn => {
             default: return;
         }
         e.preventDefault();
-        
+
         if (this.selectedCar.orient === 'h' && dy !== 0) return;
         if (this.selectedCar.orient === 'v' && dx !== 0) return;
-        
+
         this.tryMove(this.selectedCar, dx, dy);
     }
-    
+
     // ========== DRAW ==========
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        
+
         // Grid
         for (let i = 0; i <= this.gridSize; i++) {
             this.ctx.beginPath();
@@ -357,24 +396,24 @@ touchBtns.forEach(btn => {
             this.ctx.lineTo(this.canvas.width, i * this.cellSize);
             this.ctx.stroke();
         }
-        
+
         // Exit point
         this.ctx.fillStyle = '#ffd966';
         this.ctx.fillRect(this.cellSize * 5, this.cellSize * 2, this.cellSize, this.cellSize);
-        
+
         // Cars
         this.cars.forEach(car => {
             const x = car.col * this.cellSize;
             const y = car.row * this.cellSize;
             const width = car.orient === 'h' ? car.length * this.cellSize : this.cellSize;
             const height = car.orient === 'v' ? car.length * this.cellSize : this.cellSize;
-            
+
             this.ctx.fillStyle = this.selectedCar === car ? '#6c9' : car.hex;
             this.ctx.fillRect(x, y, width, height);
             this.ctx.strokeStyle = '#222';
             this.ctx.lineWidth = 2;
             this.ctx.strokeRect(x, y, width, height);
-            
+
             // Wheels
             this.ctx.fillStyle = '#222';
             this.ctx.fillRect(x + 5, y + 5, 8, 8);
@@ -383,12 +422,12 @@ touchBtns.forEach(btn => {
             this.ctx.fillRect(x + width - 13, y + height - 13, 8, 8);
         });
     }
-    
+
     // ========== UI & NAVIGASI ==========
     updateUI() {
         const levelCounter = document.getElementById('levelCounter');
         const levelName = document.getElementById('levelName');
-        
+
         if (levelCounter) {
             if (this.currentLevel === 0) {
                 levelCounter.innerText = 'Debug / Sandbox';
@@ -396,7 +435,7 @@ touchBtns.forEach(btn => {
                 levelCounter.innerText = `Level ${this.currentLevel} / ${this.levels.length - 1}`;
             }
         }
-        
+
         if (levelName) {
             if (this.currentLevel === 0) {
                 levelName.innerText = '🔧 SANDBOX';
@@ -405,11 +444,11 @@ touchBtns.forEach(btn => {
             }
         }
     }
-    
+
     resetLevel() {
         this.loadLevel(this.currentLevel);
     }
-    
+
     changeLevel(delta) {
         let newLevel = this.currentLevel + delta;
         if (newLevel >= 1 && newLevel < this.levels.length) {
@@ -417,7 +456,7 @@ touchBtns.forEach(btn => {
             this.loadLevel(this.currentLevel);
         }
     }
-    
+
     nextLevel() {
         if (this.currentLevel + 1 < this.levels.length) {
             this.changeLevel(1);
@@ -426,6 +465,6 @@ touchBtns.forEach(btn => {
 }
 
 // ========== START GAME ==========
-window.onload = function() {
+window.onload = function () {
     new RushHourGame('gameCanvas');
 };
