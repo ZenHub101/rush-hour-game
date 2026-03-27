@@ -398,9 +398,25 @@ class RushHourGame {
         }
 
         // Exit point
-        this.ctx.fillStyle = '#ffd966';
+        // Exit point dengan efek gradien
+        const exitGrad = this.ctx.createLinearGradient(
+            this.cellSize * 5, this.cellSize * 2,
+            this.cellSize * 6, this.cellSize * 3
+        );
+        exitGrad.addColorStop(0, '#ffd966');
+        exitGrad.addColorStop(1, '#ffaa33');
+        this.ctx.fillStyle = exitGrad;
         this.ctx.fillRect(this.cellSize * 5, this.cellSize * 2, this.cellSize, this.cellSize);
 
+        // Tambah border putih biar keliatan
+        this.ctx.strokeStyle = 'white';
+        this.ctx.lineWidth = 2;
+        this.ctx.strokeRect(this.cellSize * 5, this.cellSize * 2, this.cellSize, this.cellSize);
+
+        // Tambah icon panah
+        this.ctx.fillStyle = 'white';
+        this.ctx.font = `${this.cellSize * 0.5}px Arial`;
+        this.ctx.fillText('→', this.cellSize * 5.35, this.cellSize * 2.7);
         // Cars
         this.cars.forEach(car => {
             const x = car.col * this.cellSize;
