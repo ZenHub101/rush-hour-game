@@ -43,26 +43,26 @@ class RushHourGame {
             "RHD3, CHB4, CVE4, CVA5, CVB5, CHE6, TVC1, TVF3, TVD4",
 
             // INDEX 21-40 - INTERMEDIATE (Level 21-40)
-            "RHA3, CHA1, CHB4, CVC2, TVE5",
-            "RHB2, CHD3, CVA5, TVF1, TVB6",
-            "RHC4, CHA2, CVE1, TVD3, TVF5",
-            "RHA5, CHB3, CHC1, CVA4, TVE6",
-            "RHB1, CHD2, CVC6, TVA3, TVF4",
-            "RHC3, CHA4, CHB6, CVE2, TVD5",
-            "RHA2, CHC5, CVA1, TVB3, TVE4",
-            "RHB4, CHD1, CVC3, TVA6, TVF2",
-            "RHC1, CHA5, CHB2, CVE4, TVD6",
-            "RHA3, CHC4, CVA6, TVB1, TVF5",
-            "RHB5, CHD3, CVC2, TVA4, TVE1",
-            "RHC2, CHA6, CHB4, CVE3, TVD5",
-            "RHA4, CHB1, CVA5, TVC3, TVF6",
-            "RHB6, CHC2, CHD4, CVE1, TVA3",
-            "RHC5, CHA3, CHB1, CVA2, TVD4",
-            "RHA1, CHB4, CVC6, TVE2, TVF3",
-            "RHB2, CHC5, CHD3, CVA4, TVF1",
-            "RHC4, CHA1, CHB6, CVE5, TVD2",
-            "RHA3, CHB2, CVC1, TVA5, TVE4",
-            "RHB5, CHD4, CVA6, TVC2, TVF3",
+            "RHC3, CVA1, CHC1, CHE1, CVA3, CVF2, CVB4, CVC4, CHD4, CVF4, CVE5, TVB1, THC2, THA6",
+            "RHC3, CVA1, CVB1, CVD1, CHE1, CVF2, CVB3, CHC4, CVC5, CHA6, CH36, TVE2, TVA3, THD5",
+            "RHB3, CHA1, CVF1, CVA2, CHB2, CVD2, CVE2, CVF3, CHA4, CVC4, CHD4, THC1, THD5, THA6",
+            "RHB3, CHB1, CVD1, CHE1, CHB2, CVD3, CHA4, CVC4, CHD5, CHB6, CHD6, TVA1, TVE2, TVF4",
+            "RHB3, CVC1, CHD1, CVF1, CVE2, CVF3, CVB4, CVC5, CVD5, CHE5, CHA6, CHE6, TVA3, THC4",
+            "RHA3, CHB1, CHD1, CHE2, CVA4, CVB4, CHE5, CHC5, CVE5, CVF5, CHA6, CHC6, TVC2, TVD2",
+            "RHB3, CVC1, CVD2, CHE2, CVA3, CVF3, CVB4, CVA5, CHC5, CVF5, CHB6, CHD6, THD1, TVE3",
+            "RHA3, CVA1, CVF1, CHB2, CVD2, CVC3, CVF3, CHA4, CVD4, CHE5, CHB6, CHD6, THC1, TVE2",
+            "RHA3, CVA1, CVF1, CHC2, CVC3, CVA4, CHE4, CHB5, CVF5, THB1, TVE1, TVD4, THA6",
+            "RHA3, CVA1, CHB1, CVE1, CVC2, CHE4, CHD5, CVF5, CHD6, TVD1, THB4, THA5, THA6",
+            "RHA3, CVA1, CHB1, CVC2, CVF3, CVB4, CHC4, CHC5, CVF5, THD1, THD2, TVE4, THA6",
+            "RHB3, CHD1, CHB2, CVB4, CVC4, CVA5, CVD5, CHE5, CHB6, THA1, TVF1, TVA2, THD4",
+            "RHA3, CVD1, CHA2, CVC2, CHE2, CVA4, CHB5, CHD5, CHA6, CHC6, THA1, THC4, TVF4",
+            "RHB3, CHA1, CHC1, CVE1, CVD2, CVA3, CVC4, CHA5, CVD5, CHE6, TVF1, THD4, THA6",
+            "RHA3, CVA1, CHB1, CHC2, CVE2, CVC3, CHA4, CHD4, CHB5, CVD5, THD1, TVF4, THA6",
+            "RHD3, CVB1, CHC1, CVE1, CVC2, CVD4, CVC5, CHE5, CHA6, CHD6, TVA1, TVF2, THA4",
+            "RHB3, CVA1, CVB1, CHC1, CHC2, CVA3, CVF3, CVC4, CHD4, CVD5, CVF5, TVE1, THA6",
+            "RHA3, CVA1, CHC1, CHE1, CHB2, CVD2, CVF2, CVC3, CHD4, CVF4, CVE5, THB5, THB6",
+            "RHA3, CVA1, CHB1, CVC2, CHD2, CVF2, CVD4, CHE4, CVE5, CHA6, CHC6, THD1, THA5",
+            "RHD3, CHB1, CVD1, CHE1, CHA2, CVC2, CVF2, CVC4, CVF4, CHD5, CHB6, TVA4, THD6",
             
             // INDEX 41-60 - ADVANCED (Level 41-60)
             "RHA3, CHA4, CHB1, CVC2, CVE5, TVD6",
@@ -392,7 +392,7 @@ touchBtns.forEach(btn => {
             if (this.currentLevel === 0) {
                 levelCounter.innerText = 'Debug / Sandbox';
             } else {
-                levelCounter.innerText = `Level ${this.currentLevel} / ${this.levels.length}`;
+                levelCounter.innerText = `Level ${this.currentLevel} / ${this.levels.length - 1}`;
             }
         }
         
