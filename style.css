@@ -83,6 +83,30 @@ canvas {
     margin-bottom: 12px;
 }
 
+.prevBtn {
+    background: #ffd966;
+    border: none;
+    padding: 10px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    box-shadow: 0 4px 0 #b97f10;
+    font-family: inherit;
+}
+
+.prevBtn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #b97f10;
+}
+
+.prevBtn.reset {
+    background: #e68a2e;
+    color: white;
+    box-shadow: 0 4px 0 #a55210;
+}
+
 .ctrl-btn {
     background: #ffd966;
     border: none;
