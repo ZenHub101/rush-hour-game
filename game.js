@@ -65,6 +65,7 @@ class RushHourGame {
             "RHD3, CHB1, CVD1, CHE1, CHA2, CVC2, CVF2, CVC4, CVF4, CHD5, CHB6, TVA4, THD6",
             
             // INDEX 41-60 - ADVANCED (Level 41-60)
+            "RHD3, CVC6, TVE4, TVF5, CHB2, CHD4, CHA4, TVF1, TVF3, CVA5",
             "RHA3, CHA4, CHB1, CVC2, CVE5, TVD6",
             "RHB2, CHD3, CVA1, CVC5, TVF4, TVE6",
             "RHC4, CHA2, CHB5, CVE1, TVD3, TVF6",
