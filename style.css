@@ -141,3 +141,47 @@ canvas {
         font-size: 22px;
     }
 }
+/* Touch controls - hidden di desktop, muncul di HP */
+.touch-controls {
+    display: none;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.touch-row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.touch-btn {
+    background: #ffd966;
+    border: none;
+    font-size: 28px;
+    font-weight: bold;
+    padding: 12px 24px;
+    border-radius: 60px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #b97f10;
+    transition: 0.05s linear;
+    min-width: 70px;
+}
+
+.touch-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #b97f10;
+}
+
+/* Munculin touch controls kalau layar ≤ 768px (HP/tablet) */
+@media (max-width: 768px) {
+    .touch-controls {
+        display: block;
+    }
+    
+    .touch-btn {
+        font-size: 32px;
+        padding: 15px 30px;
+        min-width: 80px;
+    }
+}
