@@ -8,3 +8,7 @@ Rush Hour sliding puzzle game - open source implementation
 - ✅ Expert (20 level) - Selesai
 
 Proyek ini masih **Work in Progress (WIP)**. Kontribusi dan saran sangat diterima!
+
+## ⏳ Advanced Level (41-60)
+Masih dalam proses pengumpulan data. Jika kamu memiliki fisik Rush Hour Brain Fitness, 
+bantu foto challenge card Advanced ya! 🙏
