@@ -243,40 +243,41 @@ class RushHourGame {
         this.draw();
 
         if (car.isRed && car.col + car.length === this.gridSize) {
-            // Disable kontrol dulu biar gak ganggu animasi
+            // Disable kontrol
             this.selectedCar = null;
 
-            // Animasi mobil merah meluncur ke kanan
             let step = 0;
-            const maxStep = 10; // jumlah frame animasi
-            const originalCol = car.col;
+            const maxStep = 10;
+            const startX = car.col * this.cellSize;
+            const targetX = (car.col + car.length) * this.cellSize;
 
             const animateExit = () => {
                 step++;
                 const progress = step / maxStep;
-                // Geser mobil ke kanan secara progresif
-                const offset = progress * this.cellSize;
+                const currentX = startX + (targetX - startX) * progress;
 
-                // Hapus dari grid dulu
-                this.removeCarFromGrid(car);
-
-                // Gambar ulang semua mobil + mobil merah dengan offset
+                // Gambar ulang SEMUA (grid + mobil lain)
                 this.draw();
 
-                // Gambar mobil merah dengan posisi bergeser
-                const x = (originalCol + progress) * this.cellSize;
-                const y = car.row * this.cellSize;
+                // Gambar mobil merah di posisi baru
                 const width = car.length * this.cellSize;
+                const y = car.row * this.cellSize;
 
                 this.ctx.fillStyle = '#e33';
-                this.ctx.fillRect(x, y, width, this.cellSize);
+                this.ctx.fillRect(currentX, y, width, this.cellSize);
                 this.ctx.strokeStyle = '#222';
-                this.ctx.strokeRect(x, y, width, this.cellSize);
+                this.ctx.strokeRect(currentX, y, width, this.cellSize);
+
+                // Roda
+                this.ctx.fillStyle = '#222';
+                this.ctx.fillRect(currentX + 5, y + 5, 8, 8);
+                this.ctx.fillRect(currentX + width - 13, y + 5, 8, 8);
+                this.ctx.fillRect(currentX + 5, y + this.cellSize - 13, 8, 8);
+                this.ctx.fillRect(currentX + width - 13, y + this.cellSize - 13, 8, 8);
 
                 if (step < maxStep) {
                     requestAnimationFrame(animateExit);
                 } else {
-                    // Animasi selesai, load level berikutnya
                     document.getElementById('statusMsg').innerHTML = '🎉 SELAMAT! MOBIL MERAH KELUAR! 🎉';
                     setTimeout(() => {
                         if (this.currentLevel + 1 < this.levels.length) {
@@ -286,6 +287,8 @@ class RushHourGame {
                 }
             };
 
+            // Hapus mobil dari grid dulu
+            this.removeCarFromGrid(car);
             requestAnimationFrame(animateExit);
             return true;
         }
