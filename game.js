@@ -243,13 +243,19 @@ class RushHourGame {
         this.draw();
 
         if (car.isRed && car.col + car.length === this.gridSize) {
-            // Disable kontrol
             this.selectedCar = null;
 
             let step = 0;
             const maxStep = 10;
             const startX = car.col * this.cellSize;
             const targetX = (car.col + car.length) * this.cellSize;
+            const y = car.row * this.cellSize;
+            const width = car.length * this.cellSize;
+
+            // Hapus mobil merah dari grid dan cars array
+            this.removeCarFromGrid(car);
+            const carIndex = this.cars.indexOf(car);
+            if (carIndex !== -1) this.cars.splice(carIndex, 1);
 
             const animateExit = () => {
                 step++;
@@ -259,10 +265,7 @@ class RushHourGame {
                 // Gambar ulang SEMUA (grid + mobil lain)
                 this.draw();
 
-                // Gambar mobil merah di posisi baru
-                const width = car.length * this.cellSize;
-                const y = car.row * this.cellSize;
-
+                // Gambar mobil merah di posisi baru (overlay)
                 this.ctx.fillStyle = '#e33';
                 this.ctx.fillRect(currentX, y, width, this.cellSize);
                 this.ctx.strokeStyle = '#222';
@@ -287,8 +290,6 @@ class RushHourGame {
                 }
             };
 
-            // Hapus mobil dari grid dulu
-            this.removeCarFromGrid(car);
             requestAnimationFrame(animateExit);
             return true;
         }
@@ -401,7 +402,6 @@ class RushHourGame {
         }
 
         // Exit point
-        // Exit point dengan efek gradien
         const exitGrad = this.ctx.createLinearGradient(
             this.cellSize * 5, this.cellSize * 2,
             this.cellSize * 6, this.cellSize * 3
@@ -410,18 +410,17 @@ class RushHourGame {
         exitGrad.addColorStop(1, '#ffaa33');
         this.ctx.fillStyle = exitGrad;
         this.ctx.fillRect(this.cellSize * 5, this.cellSize * 2, this.cellSize, this.cellSize);
-
-        // Tambah border putih biar keliatan
         this.ctx.strokeStyle = 'white';
         this.ctx.lineWidth = 2;
         this.ctx.strokeRect(this.cellSize * 5, this.cellSize * 2, this.cellSize, this.cellSize);
-
-        // Tambah icon panah
         this.ctx.fillStyle = 'white';
         this.ctx.font = `${this.cellSize * 0.5}px Arial`;
         this.ctx.fillText('→', this.cellSize * 5.35, this.cellSize * 2.7);
-        // Cars
+
+        // Gambar mobil SELAIN merah
         this.cars.forEach(car => {
+            if (car.isRed) return; // SKIP mobil merah, nanti digambar manual di animasi
+
             const x = car.col * this.cellSize;
             const y = car.row * this.cellSize;
             const width = car.orient === 'h' ? car.length * this.cellSize : this.cellSize;
@@ -433,7 +432,7 @@ class RushHourGame {
             this.ctx.lineWidth = 2;
             this.ctx.strokeRect(x, y, width, height);
 
-            // Wheels
+            // Roda
             this.ctx.fillStyle = '#222';
             this.ctx.fillRect(x + 5, y + 5, 8, 8);
             this.ctx.fillRect(x + width - 13, y + 5, 8, 8);
