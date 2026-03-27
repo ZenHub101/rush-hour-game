@@ -22,7 +22,7 @@ class RushHourGame {
             
             // INDEX 1-20 - BEGINNER (Level 1-20)
             "RHC3, CVE3, TVF2, THA4, THD5, CVC5",
-            "RHA3, CHE4, CVE5, THA1, THD5, THA5",
+            "RHA3, CHE4, CVE5, THA1, TVC2, THA5",
             "RHD3, CVC3, CHE5, THC2, TVF2, TVD4",
             "RHA3, CHC6, CHE6, TVC1, THA4, TVF3",
             "RHA3, CVB1, CVC5, CHE5, THD1, TVE2, THA4",
