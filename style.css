@@ -462,3 +462,41 @@ button {
         font-size: 16px !important;
     }
 }
+
+/* === PAKSA UKURAN TOMBOL === */
+button#prevBtn, 
+button#resetBtn, 
+button#nextBtn,
+button.touch-btn {
+    background: #ffd966 !important;
+    border: none !important;
+    font-weight: bold !important;
+    border-radius: 40px !important;
+    cursor: pointer !important;
+}
+
+/* Ukuran desktop */
+button#prevBtn, button#resetBtn, button#nextBtn {
+    padding: 10px 24px !important;
+    font-size: 16px !important;
+}
+
+button.touch-btn {
+    padding: 12px 24px !important;
+    font-size: 28px !important;
+}
+
+/* Ukuran HP */
+@media (max-width: 768px) {
+    button#prevBtn, button#resetBtn, button#nextBtn {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+        min-width: 55px !important;
+    }
+    
+    button.touch-btn {
+        padding: 8px 16px !important;
+        font-size: 20px !important;
+        min-width: 55px !important;
+    }
+}
