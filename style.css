@@ -284,3 +284,44 @@ canvas {
         font-size: 12px;
     }
 }*/
+
+/* HP - Paksa ukuran kecil */
+@media only screen and (max-width: 600px) {
+    .ctrl-btn {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+        min-width: 55px !important;
+    }
+    
+    .touch-btn {
+        font-size: 20px !important;
+        padding: 8px 16px !important;
+        min-width: 55px !important;
+    }
+    
+    .controls {
+        gap: 8px !important;
+    }
+    
+    .touch-row {
+        gap: 8px !important;
+    }
+    
+    .status {
+        font-size: 10px !important;
+        padding: 4px 8px !important;
+    }
+    
+    .level-name, .level-counter {
+        font-size: 12px !important;
+        padding: 2px 8px !important;
+    }
+    
+    h1 {
+        font-size: 18px !important;
+    }
+    
+    .container {
+        padding: 8px !important;
+    }
+}
