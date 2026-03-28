@@ -44,6 +44,11 @@ canvas {
     border-radius: 12px;
     cursor: pointer;
     background-color: #4a6e3f;
+    /* Tambah ini biar responsif */
+    width: 100%;
+    height: auto;
+    max-width: 480px;
+    aspect-ratio: 1 / 1; /* biar tetap kotak */
 }
 
 .info-panel {
