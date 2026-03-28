@@ -494,6 +494,12 @@ button.touch-btn {
         min-width: 55px !important;
     }
     
+    #resetBtn {
+        background: #e68a2e !important;
+        color: white !important;
+        box-shadow: 0 4px 0 #a55210 !important;
+    }
+
     button.touch-btn {
         padding: 8px 16px !important;
         font-size: 20px !important;
