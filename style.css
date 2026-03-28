@@ -465,7 +465,6 @@ button {
 
 /* === PAKSA UKURAN TOMBOL === */
 button#prevBtn, 
-button#resetBtn, 
 button#nextBtn,
 button.touch-btn {
     background: #ffd966 !important;
