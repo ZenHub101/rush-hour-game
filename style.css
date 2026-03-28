@@ -325,3 +325,70 @@ canvas {
         padding: 8px !important;
     }
 }
+
+/* ========== TOMBOL NAVIGASI - PAKAI ID ========== */
+#prevBtn, #resetBtn, #nextBtn {
+    background: #ffd966;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 40px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #b97f10;
+    font-family: inherit;
+    min-width: 70px;
+}
+
+#resetBtn {
+    background: #e68a2e;
+    color: white;
+    box-shadow: 0 4px 0 #a55210;
+}
+
+#prevBtn:active, #resetBtn:active, #nextBtn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #b97f10;
+}
+
+/* ========== TOMBOL ARAH (TOUCH) ========== */
+.touch-btn {
+    background: #ffd966;
+    border: none;
+    font-size: 28px;
+    font-weight: bold;
+    padding: 12px 24px;
+    border-radius: 60px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #b97f10;
+    transition: 0.05s linear;
+    min-width: 70px;
+}
+
+.touch-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #b97f10;
+}
+
+/* ========== HP UKURAN KECIL ========== */
+@media only screen and (max-width: 600px) {
+    #prevBtn, #resetBtn, #nextBtn {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+        min-width: 55px !important;
+    }
+    
+    .touch-btn {
+        font-size: 20px !important;
+        padding: 8px 16px !important;
+        min-width: 55px !important;
+    }
+    
+    .controls {
+        gap: 8px !important;
+    }
+    
+    .touch-row {
+        gap: 8px !important;
+    }
+}
